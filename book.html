@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book</title>
+    <script src="jquery-3.5.1min.js"></script>
+    
+
+    <script>
+        $(()=> {
+            $("bookid").blur(()=>{
+                let input={bookid:$("#bookid").val()};
+                let connectserver ={
+                    data:input,
+                    url:"http//localhost:8081/getdeails",
+                    type:'get',
+                    datatype:'json',
+                    success:(returndata) =>{
+                        if(returndata.bookid ==input.bookid){
+                            $("#result").text("book id found");
+                            $("#name").val(returndata.bookname);
+                            $("#price").val(returndata.price);
+
+                        }
+                        elseif(returndata){
+                            $("#result").text("book id  not found");
+                            $("#id").val(null);
+                            $("#name").val(null);
+                            $("#price").val(null);
+
+                        }
+                    },
+                    error:(returndata)=>{
+                        console.log("update failed ");
+                    }
+                }
+                $.ajax(connectserver);
+
+            });
+        });
+    </script>
+</head>
+<body>
+    <input type="number" id ="bookid" name ="bookid" placeholder="book id"><br><br>
+    <input type="text" id="bookname" name="bookname" placeholder ="book name"><br><br>
+    <input type="integer" id = "price" name="price" placeholder = "price"><br><br>
+    <input type="button" name="update book" id="update" value="update">
+    <span id ="msg"></span>
+</body>
+</html>
